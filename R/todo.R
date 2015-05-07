@@ -1,12 +1,7 @@
 ## to-be-implemented functionality
 
-parallel_lapply_ <-
-    function(.data, expr, ..., backend, job.size=NA, by.dim=1L)
-{
-}
-
 yield_ <-
-    function(.data, size=NA)
+    function(.data, size=NA, by.dim=1L)
 {
 }
 

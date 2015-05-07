@@ -1,14 +1,14 @@
 ---
-title: "Parallel and iterative evaluation using parallelr"
+title: "Parallel and iterative evaluation using strmr"
 author: "Martin Morgan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Parallel and iterative evaluation using parallelr}
+  %\VignetteIndexEntry{Parallel and iterative evaluation using strmr}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-# Parallelr
+# strmr
 
 # Simple parallel evaluation with `parallel_lapply_()`
 
