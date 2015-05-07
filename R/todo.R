@@ -5,7 +5,7 @@ yield_ <-
 {
 }
 
-parallel_ <-
+strm_ <-
     function(.data, expr, ..., backend, job.size=NA, by.dim=1)
 {
 }
