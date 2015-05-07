@@ -12,7 +12,7 @@ vignette: >
 
 # Simple parallel evaluation with `parallel_lapply_()`
 
-# Yield, parallel evalutaion, and reduction
+# Yield, parallel evaluation, and reduction
 
 ## The `yield_()` family
 
