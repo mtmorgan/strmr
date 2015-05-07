@@ -1,0 +1,21 @@
+---
+title: "Parallel and iterative evaluation using parallelr"
+author: "Martin Morgan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Parallel and iterative evaluation using parallelr}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Parallelr
+
+# Simple parallel evaluation with `parallel_lapply_()`
+
+# Yield, parallel evalutaion, and reduction
+
+## The `yield_()` family
+
+## `parallel_()`
+
+## The `reduce_()` and `ireduce_()` families

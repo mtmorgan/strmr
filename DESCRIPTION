@@ -1,0 +1,16 @@
+Package: parallelr
+Type: Package
+Title: Parallel evaluation using pipes
+Version: 0.0.1
+Authors@R: c(
+    person("Martin", "Morgan", role="cre", email="mtmorgan@fredhutch.org"),
+    person("Valerie", "Obenchain", role="aut"),
+    person("James", "Hester", role="aut"))
+Description: This package implements a magrittr-style pipe interface
+    to parallel evaluation. The user has control over the back end on
+    which evaluation occurs, and can easily iterate through large data
+    sources.
+License: Artistic-2.0
+Depends: magrittr
+Suggests: knitr
+VignetteBuilder: knitr
