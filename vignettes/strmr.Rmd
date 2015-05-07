@@ -10,12 +10,52 @@ vignette: >
 
 # strmr
 
-# Simple parallel evaluation with `parallel_lapply_()`
+The ambition is to easily incorporate parallel evaluation into
+magrittr-style 'pipes' in a way that is friendly to large data.
 
-# Yield, parallel evaluation, and reduction
+```{r overview, eval=FALSE}
+file("my.csv") %>% strm_lapply({
+    Sys.sleep(1)  # long computation
+    1             # return value
+}) %>% plot(formula = result ~ factors)
+```
+
+Some level of granularity will be provided by separating the parallel
+processing task into three phases: `yield()` up-=stream data in
+manageable chunks, (lazy) streaming parallel evaluation of chunks via
+`strm()`, and reduction of chunks prior to down-stream analysis
+(`reduce()`, `ireduce()`).
+
+```{r overview-granular, eval=FALSE}
+file("my.csv") %>% yield(size=1e8, by.dim=2) %>% strm({
+    Sys.sleep(1)
+    1
+}) %>% ireduce(sum)
+```
+
+Ultimately diverse back-ends will be supported
+
+```{r overview-backend, eval=FALSE}
+cores <- backend("multicore", 8)
+computer <- backend("socket", 8)
+clusters <- backend("mpi")
+clouds <- backend("spark")
+
+BamFileList(pattern="bam$") %>% strm_lapply({
+    countBam(.)
+}, backend=cores) %>% simplify2array()
+```
+
+## Progress
+
+NONE.
+
+# Simple parallel evaluation: `strm_lapply_()`
+
+# Greater control with `yield_()`, `strm_()`, and `reduce_()`
 
 ## The `yield_()` family
 
-## `parallel_()`
+## `strm_()`
 
 ## The `reduce_()` and `ireduce_()` families
