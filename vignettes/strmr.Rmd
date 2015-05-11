@@ -21,13 +21,13 @@ file("my.csv") %>% strm_lapply({
 ```
 
 Some level of granularity will be provided by separating the parallel
-processing task into three phases: `yield()` up-=stream data in
+processing task into three phases: `yield()` up-stream data in
 manageable chunks, (lazy) streaming parallel evaluation of chunks via
 `strm()`, and reduction of chunks prior to down-stream analysis
 (`reduce()`, `ireduce()`).
 
 ```{r overview-granular, eval=FALSE}
-file("my.csv") %>% yield(size=1e8, by.dim=2) %>% strm({
+file("my.csv") %>% yield_csv(size=1e8, by.dim=2) %>% strm({
     Sys.sleep(1)
     1
 }) %>% ireduce(sum)
