@@ -12,5 +12,6 @@ Description: This package implements a magrittr-style pipe interface
     sources.
 License: Artistic-2.0
 Depends: magrittr
+Imports: snow
 Suggests: knitr
 VignetteBuilder: knitr
