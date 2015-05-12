@@ -2,12 +2,15 @@
 
 .backend <- new.env(parent=emptyenv())
 
-.set_current_backend <- function(value) {
+.backend_set_current <- function(value) {
     .backend[["current"]] <- value
-    .get_current()
+    .backend_get_current()
 }
 
-.get_current_backend <- function() {
+.backend_exists <- function()
+    !is.null(.backend[["current"]])
+
+.backend_get_current <- function() {
     b <- .backend[["current"]]
     if (is.null(b))
         b <- backend()
@@ -19,6 +22,10 @@
 backend <-
     function(spec, type, ..., outfile="")
 {
+    if (missing(spec) && missing(type)) {
+        if (.backend_exists())
+            return(.backend_get_current())
+    }
     if (missing(spec))
         spec <- as.integer(ceiling(0.75 * parallel::detectCores()))
     if (missing(type))
@@ -36,15 +43,15 @@ backend <-
     }, {
         stop("unknown backend type '", type, "'")
     })
-    class(cl) <- c(sprintf("strmr_%s", type), "strmr_backend", class(cl))
-    .set_current_backend(cl)
+    class(cl) <- c(sprintf("strm_%s", type), "strm_backend", class(cl))
+    .backend_set_current(cl)
 }
 
-close.strmr_backend <- function(con, ...) {
+close.strm_backend <- function(con, ...) {
     stopCluster(con)
 }
 
-print.strmr_backend <- function(x, ...) {
+print.strm_backend <- function(x, ...) {
     hosts <- table(vapply(x, `[[`, character(1), "host"))
     cat(sprintf("%s backend of length %d", class(x)[[1]], length(x)),
         paste(sprintf("\n  %s (x%d)", names(hosts), as.vector(hosts)),
