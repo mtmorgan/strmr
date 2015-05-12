@@ -1,5 +1,10 @@
 import(magrittr)
 import(snow)
-export(.strmr_loop, backend)
-S3method(close, strmr_backend)
-S3method(print, strmr_backend)
+
+export(.strmr_loop, strm_yield_, backend)
+
+S3method(strm_yield_, default)
+S3method(close, strm_backend)
+S3method(print, strm_yield_status)
+S3method(print, strm_yield_)
+S3method(print, strm_backend)
