@@ -1,14 +1,20 @@
-print.strmr_backend <- function(x, ...) {
-    hosts <- table(vapply(x, `[[`, character(1), "host"))
-    cat(sprintf("%s backend of length %d", class(x)[[1]], length(x)),
-        paste(sprintf("\n  %s (x%d)", names(hosts), as.vector(hosts)),
-              collapse=""),
-        "\n")
+## 
+
+.backend <- new.env(parent=emptyenv())
+
+.set_current_backend <- function(value) {
+    .backend[["current"]] <- value
+    .get_current()
 }
 
-close.strmr_backend <- function(con, ...) {
-    stopCluster(con)
+.get_current_backend <- function() {
+    b <- .backend[["current"]]
+    if (is.null(b))
+        b <- backend()
+    b
 }
+
+## 
 
 backend <-
     function(spec, type, ..., outfile="")
@@ -31,6 +37,17 @@ backend <-
         stop("unknown backend type '", type, "'")
     })
     class(cl) <- c(sprintf("strmr_%s", type), "strmr_backend", class(cl))
-    cl
+    .set_current_backend(cl)
 }
 
+close.strmr_backend <- function(con, ...) {
+    stopCluster(con)
+}
+
+print.strmr_backend <- function(x, ...) {
+    hosts <- table(vapply(x, `[[`, character(1), "host"))
+    cat(sprintf("%s backend of length %d", class(x)[[1]], length(x)),
+        paste(sprintf("\n  %s (x%d)", names(hosts), as.vector(hosts)),
+              collapse=""),
+        "\n")
+}
