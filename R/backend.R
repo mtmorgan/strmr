@@ -2,9 +2,11 @@
 
 .backend <- new.env(parent=emptyenv())
 
-.backend_set_current <- function(value) {
-    .backend[["current"]] <- value
-    .backend_get_current()
+.backend_set_current <- function(value, register) {
+    if (register) {
+        .backend[["current"]] <- value
+        .backend_get_current()
+    } else value
 }
 
 .backend_exists <- function()
@@ -42,17 +44,17 @@ print.strm_backend <- function(x, ...)
 ## serial
 
 backend_serial <-
-    function(...)
+    function(..., register=TRUE)
 {
     cl <- list()
     class(cl) <- .backend_class(cl, "serial")
-    .backend_set_current(cl)
+    .backend_set_current(cl, register)
 }
 
 ## socket
 
 backend_socket <-
-    function(spec, ...)
+    function(spec, ..., register=TRUE)
 {
     if (missing(spec))
         spec <- as.integer(ceiling(0.75 * parallel::detectCores()))
@@ -64,7 +66,7 @@ backend_socket <-
     scriptdir <- file.path(snowlib, "snow")
     cl <- makeSOCKcluster(spec, snowlib=snowlib, scriptdir=scriptdir, ...)
     class(cl) <- .backend_class(cl, "socket")
-    .backend_set_current(cl)
+    .backend_set_current(cl, register)
 }
 
 close.strm_socket <- function(con, ...) {
