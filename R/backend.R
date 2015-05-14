@@ -36,6 +36,8 @@ backend <-
     backend_socket(spec, ...)
 }
 
+.backend_value <- .strmr_value
+
 close.strm_backend <- function(con, ...) {}
 
 print.strm_backend <- function(x, ...)
@@ -46,7 +48,7 @@ print.strm_backend <- function(x, ...)
 backend_serial <-
     function(..., register=TRUE)
 {
-    cl <- list()
+    cl <- list(strmr_value=.strm_yield_status("pending"))
     class(cl) <- .backend_class(cl, "serial")
     .backend_set_current(cl, register)
 }
@@ -65,6 +67,7 @@ backend_socket <-
     snowlib <- system.file(package="strmr", "node")
     scriptdir <- file.path(snowlib, "snow")
     cl <- makeSOCKcluster(spec, snowlib=snowlib, scriptdir=scriptdir, ...)
+    cl$strmr_value <- .strm_yield_status("pending")
     class(cl) <- .backend_class(cl, "socket")
     .backend_set_current(cl, register)
 }

@@ -15,8 +15,7 @@ strm_yield_ <- function(.data, ..., class=NULL)
 .strm_yield_length <- function(x)
     x$length
 
-.strm_yield_value <- function(x)
-    x$value
+.strm_yield_value <- .strmr_value
 
 .strm_yield_class <- function(x)
     class(.strm_yield_data(x))
@@ -27,7 +26,7 @@ strm_yield_.default <-
     env <- new.env(parent=emptyenv())
     env[["data"]] <- .data
     structure(list(env=env, yield.size=yield.size, length=length(.data),
-                   offset=0L, value=.strm_yield_status("pending")),
+                   offset=0L, strmr_value=.strm_yield_status("pending")),
               class=c(class, "strm_yield_", "strmr"))
 }
 
@@ -46,5 +45,5 @@ print.strm_yield_ <-
         .strm_yield_length(x), "; yield size ", .strm_yield_size(x), "\n",
         sep="")
     cat("value:\n")
-    print(.strm_yield_value(x))
+    print(.strmr_value(x))
 }
