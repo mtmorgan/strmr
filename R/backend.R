@@ -29,7 +29,7 @@ backend <-
     function(spec, type, ...)
 {
     if (missing(spec) && missing(type) && .backend_exists())
-        .backend_get_current()
+        return(.backend_get_current())
     ## FIXME: platform-specific default
     backend_socket(spec, ...)
 }
