@@ -2,7 +2,8 @@
 title: "Parallel and iterative evaluation using strmr"
 author: "Martin Morgan"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Parallel and iterative evaluation using strmr}
   %\VignetteEngine{knitr::rmarkdown}
@@ -48,14 +49,39 @@ BamFileList(pattern="bam$") %>% strm_lapply({
 
 ## Progress
 
-NONE.
+- Serial and socket `backend()`
+- Vector and by-row `data_strm()`
+- Serial `yield1()`
+
+```{r}
+suppressPackageStartupMessages({
+    library(strmr)
+})
+
+## create & register as default
+backend(type="serial")
+
+## vector and by-row streams
+data_strm(1:10, 3) %>% strm(sqrt) %>% yield1() %>% strmr_value()
+data_strm(mtcars, yield.size=4) %>% yield1
+
+## 'yield-all'
+s <- strm(data_strm(1:10, 3), sqrt)
+repeat {
+    s <- yield1(s)
+    if (is(strmr_value(s), "strm_done"))
+        break
+    print(strmr_value(s))
+}
+strmr_value(s)
+```
 
 # Simple parallel evaluation: `strm_lapply_()`
 
-# Greater control with `yield_()`, `strm_()`, and `reduce_()`
+# Greater control with `yield1()`, `strm()`, and `reduce()`
 
-## The `yield_()` family
+## The `yield()` family
 
-## `strm_()`
+## `strm()`
 
-## The `reduce_()` and `ireduce_()` families
+## The `reduce()` and `reduce_iter()` families

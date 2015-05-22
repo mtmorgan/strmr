@@ -23,5 +23,5 @@ Collate:
 License: Artistic-2.0
 Depends: magrittr
 Imports: snow
-Suggests: knitr
+Suggests: BiocStyle, knitr, rmarkdown
 VignetteBuilder: knitr
