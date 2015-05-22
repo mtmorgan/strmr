@@ -1,36 +1,39 @@
-strm_ <-
+strm <-
     function(.data, expr, ..., backend=NULL, job.size=NA_integer_,
              class=NULL)
 {
-    stopifnot(is(.data, "strm_yield_"),
+    stopifnot(is(.data, "data_strm"),
               is.null(backend) || is(backend, "strm_backend"),
               length(job.size) == 1L, is.integer(job.size))
     if (is.null(backend))
         backend <- .backend_get_current()
 
     structure(list(data=.data, backend=backend, job.size=job.size,
-                   expr=substitute(expr), eval_env=parent.frame()),
-              class=c(class, "strm_strm_", "strmr"))
+                   expr=substitute(expr), env=parent.frame()),
+              class=c(class, "strm", "strmr"))
 }
 
-strm_data <- function(x)
+.strm_data <- function(x)
     x$data
 
-strm_backend <- function(x)
+.strm_backend <- function(x)
     x$backend
 
-strm_job_size <- function(x)
+.strm_job_size <- function(x)
     x$job.size
 
 strm_expr <- function(x)
     x$expr
 
-print.strm_strm_ <-
+.strm_env <- function(x)
+    x$env
+
+print.strm <-
     function(x, ...)
 {
-    cat("strm_data: ", class(strm_data(x))[1], "\n",
-        "strm_backend: ", class(strm_backend(x))[1], "\n",
-        "strm_job_size: ", strm_job_size(x), "\n",
+    cat("data_strm: ", class(.strm_data(x))[1], "\n",
+        "backend: ", class(.strm_backend(x))[1], "\n",
+        "job size: ", .strm_job_size(x), "\n",
         "strm_expr() prints expression under evaluation\n",
         sep="")
 }

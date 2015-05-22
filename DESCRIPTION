@@ -10,6 +10,16 @@ Description: This package implements a magrittr-style pipe interface
     to parallel evaluation. The user has control over the back end on
     which evaluation occurs, and can easily iterate through large data
     sources.
+Collate:
+    strmr.R
+    strm_yield_status.R
+    backend.R
+    data_strm.R
+    yield1.R
+    strm.R
+    dot_strmr_loop.R
+    strmr_lapply.R
+    todo.R
 License: Artistic-2.0
 Depends: magrittr
 Imports: snow

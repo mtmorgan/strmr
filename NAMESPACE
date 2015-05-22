@@ -1,10 +1,23 @@
 import(magrittr)
 import(snow)
 
-export(.strmr_loop, strm_yield_, backend)
+export(backend, data_strm, yield1, strm, strm_expr, strmr_value)
 
-S3method(strm_yield_, default)
-S3method(close, strm_backend)
-S3method(print, strm_yield_status)
-S3method(print, strm_yield_)
 S3method(print, strm_backend)
+S3method(close, strm_backend)
+
+S3method(print, strm_socket)
+S3method(close, strm_socket)
+
+S3method(yield1, strm_serial)
+
+S3method(print, strm_yield_status)
+
+S3method(data_strm, default)
+S3method(data_strm, data.frame)
+S3method(yield1, data_strm)
+S3method(yield1, data_strm_byrow)
+S3method(print, data_strm)
+
+S3method(print, strm)
+S3method(yield1, strm)

@@ -24,7 +24,7 @@
 .backend_class <-
     function(x, type)
 {
-    c(sprintf("strm_%s", type), "strm_backend", class(cl))
+    c(sprintf("strm_%s", type), "strm_backend", class(x))
 }
 
 backend <-
@@ -33,15 +33,23 @@ backend <-
     if (missing(spec) && missing(type) && .backend_exists())
         return(.backend_get_current())
     ## FIXME: platform-specific default
-    backend_socket(spec, ...)
+    switch(type,
+           socket=backend_socket(spec, ...),
+           serial=backend_serial(...),
+           stop("unknown backend '", type, "'"))
 }
 
-.backend_value <- .strmr_value
+backend_value <- strmr_value
 
 close.strm_backend <- function(con, ...) {}
 
-print.strm_backend <- function(x, ...)
+print.strm_backend <-
+    function(x, ...)
+{
     cat(class(x)[1], "backend\n")
+    cat("backend_value:\n")
+    print(backend_value(x))
+}
 
 ## serial
 
@@ -73,12 +81,14 @@ backend_socket <-
 }
 
 close.strm_socket <- function(con, ...) {
-    stopCluster(con)
+    nodes <- !nzchar(names(con))
+    stopCluster(con[nodes])
 }
 
 print.strm_socket <- function(x, ...) {
-    hosts <- table(vapply(x, `[[`, character(1), "host"))
-    cat(sprintf("%s backend of length %d", class(x)[[1]], length(x)),
+    nodes <- !nzchar(names(x))
+    hosts <- table(vapply(x[nodes], `[[`, character(1), "host"))
+    cat(sprintf("%s backend of length %d", class(x)[[1]], sum(nodes)),
         paste(sprintf("\n  %s (x%d)", names(hosts), as.vector(hosts)),
               collapse=""),
         "\n")

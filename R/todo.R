@@ -1,15 +1,5 @@
 ## to-be-implemented functionality
 
-yield_ <-
-    function(.data, size=NA, by.dim=1L)
-{
-}
-
-strm_ <-
-    function(.data, expr, ..., backend, job.size=NA, by.dim=1)
-{
-}
-
 reduce_ <-
     function(.data, FUN)
 {
@@ -27,8 +17,8 @@ reduce_c_ <-
     reduce_(.data, c)
 }
 
-ireduce_ <-
-    function(.data, FUN, in.order=FALSE)
+reduce_iterate_ <-
+    function(.data, FUN, in.order=FALSE, immediate=TRUE)
 {
 }
 
